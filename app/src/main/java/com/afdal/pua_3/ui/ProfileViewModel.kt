@@ -4,15 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.afdal.pua_3.repository.source.localSource.MainRepository
+import com.afdal.pua_3.utilis.singleArgViewModelFactory
 import kotlinx.coroutines.launch
 
 class ProfileViewModel(private val repository: MainRepository) : ViewModel() {
 
-    val userName: LiveData<String>
+    val name: LiveData<String>
         get() = repository.userName
 
     init {
-        //  _userName.value = getUserName()
+     getUserName()
     }
 
     fun getUserName() {
@@ -27,4 +28,13 @@ class ProfileViewModel(private val repository: MainRepository) : ViewModel() {
 
 
     }
+    companion object {
+        /**
+         * Factory for creating [MainViewModel]
+         *
+         * @param arg the repository to pass to [MainViewModel]
+         */
+        val FACTORY = singleArgViewModelFactory(::ProfileViewModel)
+    }
+
 }

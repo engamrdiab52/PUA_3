@@ -6,26 +6,28 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import com.afdal.pua_3.R
 import com.afdal.pua_3.databinding.FragmentProfileBinding
+import com.afdal.pua_3.repository.source.localSource.MainRepository
 
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
-    private val viewModel by   viewModels<ProfileViewModel>()
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false)
-      //  binding.tvName.text = "YasminAmyTalia"
         binding.lifecycleOwner = this
+
+        val repository = MainRepository()
+        val viewModel: ProfileViewModel = ViewModelProvider(
+            this,
+            ProfileViewModel.FACTORY(repository)
+        )[ProfileViewModel::class.java]
         binding.viewModel = viewModel
+
         // Inflate the layout for this fragment
         return binding.root
     }

@@ -47,7 +47,7 @@ class ProfileViewModelTest {
     fun test_getUserName() {
         runBlockingTest {
             viewModel.getUserName()
-            val value = viewModel.userName.getOrAwaitValue()
+            val value = viewModel.name.getOrAwaitValue()
             assertThat(value, `is`("YasminAmyTalia"))
         }
     }
