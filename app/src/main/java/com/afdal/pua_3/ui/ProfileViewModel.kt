@@ -1,33 +1,35 @@
 package com.afdal.pua_3.ui
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.afdal.pua_3.repository.source.localSource.MainRepository
-import com.afdal.pua_3.utilis.singleArgViewModelFactory
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ProfileViewModel(private val repository: MainRepository) : ViewModel() {
 
-    val name: LiveData<String>
-        get() = repository.userName
+    private val _status = repository.status as MutableLiveData<FirebaseResponseStatus>
+    val status: LiveData<FirebaseResponseStatus>
+        get() = _status
+
+    private suspend fun provideName() {
+        repository.provideName()
+    }
 
     init {
-     getUserName()
+        startNetworking()
     }
 
-    fun getUserName() {
-        viewModelScope.launch {
-            try {
-                repository.getUserNameRepo()
-            } catch (throwable: Throwable) {
-                throw Throwable()
-            }
+    fun getResponseFirebase(): LiveData<String> {
+        return repository.getResponseFirebase()
+    }
+
+    fun startNetworking() {
+        _status.value = FirebaseResponseStatus.LOADING
+        viewModelScope.launch(Dispatchers.IO) {
+            provideName()
         }
-
-
-
     }
+
     companion object {
         /**
          * Factory for creating [MainViewModel]
@@ -37,4 +39,18 @@ class ProfileViewModel(private val repository: MainRepository) : ViewModel() {
         val FACTORY = singleArgViewModelFactory(::ProfileViewModel)
     }
 
+}
+enum class FirebaseResponseStatus {
+    LOADING, ERROR, DONE
+}
+fun <T : ViewModel, A> singleArgViewModelFactory(constructor: (A) -> T):
+            (A) -> ViewModelProvider.NewInstanceFactory {
+    return { arg: A ->
+        object : ViewModelProvider.NewInstanceFactory() {
+            @Suppress("UNCHECKED_CAST")
+            override fun <V : ViewModel> create(modelClass: Class<V>): V {
+                return constructor(arg) as V
+            }
+        }
+    }
 }

@@ -1,27 +1,34 @@
 package com.afdal.pua_3.repository.source.localSource
 
-import android.util.Log
-import com.google.firebase.auth.FirebaseAuth
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.afdal.pua_3.ui.FirebaseResponseStatus
 import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import kotlinx.coroutines.tasks.await
 
 object FirebaseService {
-    private const val TAG = "FirebaseService"
-    fun getDataUserName() {
-        var mAuth = FirebaseAuth.getInstance()
-        var db = FirebaseDatabase.getInstance().getReference("name")
-        var listener = object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                Log.d(TAG, snapshot.toString())
-            }
+    val nameRef: DatabaseReference = FirebaseDatabase.getInstance().getReference("name")
+    private val _responseOfFirebase = MutableLiveData<String>()
+    val responseOfFirebase: LiveData<String>
+        get() = _responseOfFirebase
 
-            override fun onCancelled(error: DatabaseError) {
-                Log.d(TAG, error.message)
-            }
+    private val _status = MutableLiveData<FirebaseResponseStatus>()
+    val status: LiveData<FirebaseResponseStatus>
+        get() = _status
 
+    suspend fun nameOfProfile() {
+
+        try {
+            val snapshot: DataSnapshot? = nameRef.get().await()
+            _responseOfFirebase.postValue(snapshot?.value.toString())
+            _status.postValue(FirebaseResponseStatus.DONE)
+        }catch (e: Exception){
+            _responseOfFirebase.postValue(e.message)
+            _status.postValue(FirebaseResponseStatus.ERROR)
         }
-        db.addValueEventListener(listener)
     }
+
 }
+
