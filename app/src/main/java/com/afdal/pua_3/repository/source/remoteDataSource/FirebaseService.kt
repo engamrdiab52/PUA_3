@@ -2,7 +2,6 @@ package com.afdal.pua_3.repository.source.remoteDataSource
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.afdal.pua_3.ui.FirebaseResponseStatus
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -21,7 +20,7 @@ object FirebaseService {
 
     // Refresh
     suspend fun nameOfProfile() {
-
+        _status.postValue( FirebaseResponseStatus.LOADING)
         try {
             val snapshot: DataSnapshot? = nameRef.get().await()
             _responseOfFirebase.postValue(snapshot?.value.toString())
@@ -32,5 +31,8 @@ object FirebaseService {
         }
     }
 
+}
+enum class FirebaseResponseStatus {
+    LOADING, ERROR, DONE
 }
 

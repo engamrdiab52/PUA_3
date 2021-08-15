@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.afdal.pua_3.MyApplication
 import com.afdal.pua_3.R
 import com.afdal.pua_3.databinding.FragmentProfileBinding
+import com.afdal.pua_3.repository.source.remoteDataSource.FirebaseResponseStatus
 
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
@@ -17,7 +18,7 @@ class ProfileFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false)
         binding.lifecycleOwner = this
 
@@ -35,7 +36,7 @@ class ProfileFragment : Fragment() {
         viewModel.status.observe(viewLifecycleOwner, {
             when (it) {
                 FirebaseResponseStatus.LOADING -> {
-                    binding.tvName.text = "LOADING......"
+                    binding.tvName.text = getString(R.string.loading)
                 }
                 FirebaseResponseStatus.ERROR -> {
                     binding.tvName.text = viewModel.getResponseFirebase().value
@@ -43,6 +44,7 @@ class ProfileFragment : Fragment() {
                 FirebaseResponseStatus.DONE ->{
                     binding.tvName.text = viewModel.getResponseFirebase().value
                 }
+                else -> binding.tvName.text = getString(R.string.error)
             }
         })
         // Inflate the layout for this fragment

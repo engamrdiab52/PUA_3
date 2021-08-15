@@ -1,7 +1,6 @@
 package com.afdal.pua_3.repository.source.remoteDataSource
 
 import androidx.lifecycle.LiveData
-import com.afdal.pua_3.ui.FirebaseResponseStatus
 
 class RemoteDataSource {
 
