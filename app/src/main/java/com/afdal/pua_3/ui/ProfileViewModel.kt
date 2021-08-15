@@ -19,10 +19,10 @@ class ProfileViewModel(private val repository: MainRepository) : ViewModel() {
     init {
         startNetworking()
     }
+    //profile name
+    val profileName: LiveData<String>
+        get() = repository.profileName
 
-    fun getResponseFirebase(): LiveData<String> {
-        return repository.profileName
-    }
 
     private fun startNetworking() {
         viewModelScope.launch(Dispatchers.IO) {
