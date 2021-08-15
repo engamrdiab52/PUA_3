@@ -14,17 +14,19 @@ object FirebaseService {
     val responseOfFirebase: LiveData<String>
         get() = _responseOfFirebase
 
+    //firebase response status
     private val _status = MutableLiveData<FirebaseResponseStatus>()
     val status: LiveData<FirebaseResponseStatus>
         get() = _status
 
+    // Refresh
     suspend fun nameOfProfile() {
 
         try {
             val snapshot: DataSnapshot? = nameRef.get().await()
             _responseOfFirebase.postValue(snapshot?.value.toString())
             _status.postValue(FirebaseResponseStatus.DONE)
-        }catch (e: Exception){
+        } catch (e: Exception) {
             _responseOfFirebase.postValue(e.message)
             _status.postValue(FirebaseResponseStatus.ERROR)
         }

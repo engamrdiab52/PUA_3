@@ -29,6 +29,8 @@ class ProfileFragment : Fragment() {
        /* viewModel.getResponseFirebase().observe(viewLifecycleOwner, {
             binding.tvName.text = it
         })*/
+
+        //this part has to be in a binding adapter
         viewModel.status.observe(viewLifecycleOwner, {
             when (it) {
                 FirebaseResponseStatus.LOADING -> {

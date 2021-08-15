@@ -5,12 +5,22 @@ import com.afdal.pua_3.ui.FirebaseResponseStatus
 
 class MainRepository {
     private val remoteDataSource = RemoteDataSource()
-    suspend  fun provideName() {
+
+    // firebase response status error or Done
+    val status: LiveData<FirebaseResponseStatus>
+        get() = remoteDataSource.status
+
+    // Refresh
+    suspend fun provideName() {
         remoteDataSource.fetchName()
     }
-    fun getResponseFirebase(): LiveData<String> {
-        return remoteDataSource.getResponseFirebase()
-    }
-    val status : LiveData<FirebaseResponseStatus>
-        get() = remoteDataSource.status
+
+    //profile name
+    val profileName : LiveData<String>
+    get() = remoteDataSource.getResponseFirebase()
+
+    /*fun getResponseFirebase(): LiveData<String> {
+        return
+    }*/
+
 }

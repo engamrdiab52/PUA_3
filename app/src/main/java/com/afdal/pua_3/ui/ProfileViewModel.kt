@@ -20,7 +20,7 @@ class ProfileViewModel(private val repository: MainRepository) : ViewModel() {
     }
 
     fun getResponseFirebase(): LiveData<String> {
-        return repository.getResponseFirebase()
+        return repository.profileName
     }
 
     fun startNetworking() {

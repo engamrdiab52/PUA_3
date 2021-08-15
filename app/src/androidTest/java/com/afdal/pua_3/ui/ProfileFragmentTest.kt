@@ -26,6 +26,6 @@ class ProfileFragmentTest {
     @Test
     fun testUserName(){
         onView(withId(R.id.textView)).check(matches(withText("NAME")))
-        onView(withId(R.id.tv_name)).check(matches(withText("YasminAmyTalia")))
+        onView(withId(R.id.tv_name)).check(matches(withText("LOADING......")))
     }
 }
