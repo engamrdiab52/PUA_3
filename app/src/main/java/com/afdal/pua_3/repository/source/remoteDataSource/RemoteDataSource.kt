@@ -1,4 +1,4 @@
-package com.afdal.pua_3.repository.source.localSource
+package com.afdal.pua_3.repository.source.remoteDataSource
 
 import androidx.lifecycle.LiveData
 import com.afdal.pua_3.ui.FirebaseResponseStatus
@@ -6,7 +6,7 @@ import com.afdal.pua_3.ui.FirebaseResponseStatus
 class RemoteDataSource {
 
    suspend fun fetchName(){
-        FirebaseService.nameOfProfile()
+       FirebaseService.nameOfProfile()
     }
     fun getResponseFirebase(): LiveData<String> {
         return FirebaseService.responseOfFirebase

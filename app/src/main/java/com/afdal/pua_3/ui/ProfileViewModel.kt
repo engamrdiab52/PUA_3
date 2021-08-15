@@ -1,18 +1,18 @@
 package com.afdal.pua_3.ui
 
 import androidx.lifecycle.*
-import com.afdal.pua_3.repository.source.localSource.MainRepository
+import com.afdal.pua_3.repository.MainRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ProfileViewModel(private val repository: MainRepository) : ViewModel() {
 
-    private val _status = repository.status as MutableLiveData<FirebaseResponseStatus>
+    private val _status = repository.firebaseResponseStatus as MutableLiveData<FirebaseResponseStatus>
     val status: LiveData<FirebaseResponseStatus>
         get() = _status
 
     private suspend fun provideName() {
-        repository.provideName()
+        repository.refreshProfile()
     }
 
     init {

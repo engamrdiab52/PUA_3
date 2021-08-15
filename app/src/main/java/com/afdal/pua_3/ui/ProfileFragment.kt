@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.afdal.pua_3.MyApplication
 import com.afdal.pua_3.R
 import com.afdal.pua_3.databinding.FragmentProfileBinding
-import com.afdal.pua_3.repository.source.localSource.MainRepository
 
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
@@ -21,7 +21,8 @@ class ProfileFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false)
         binding.lifecycleOwner = this
 
-        val repository = MainRepository()
+
+        val repository = (requireContext().applicationContext as MyApplication).repository
         val viewModel: ProfileViewModel = ViewModelProvider(
             this, ProfileViewModel.FACTORY(repository)
         )[ProfileViewModel::class.java]
