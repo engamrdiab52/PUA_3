@@ -39,10 +39,10 @@ class ProfileFragment : Fragment() {
                     binding.tvName.text = getString(R.string.loading)
                 }
                 FirebaseResponseStatus.ERROR -> {
-                    binding.tvName.text = viewModel.profileName.value
+                    binding.tvName.text = "ERROR"
                 }
                 FirebaseResponseStatus.DONE ->{
-                    binding.tvName.text = viewModel.profileName.value
+                    binding.tvName.text = viewModel.profileName.value?.id
                 }
                 else -> binding.tvName.text = getString(R.string.error)
             }

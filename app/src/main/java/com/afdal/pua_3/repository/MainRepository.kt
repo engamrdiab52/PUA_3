@@ -8,7 +8,7 @@ import com.afdal.pua_3.repository.source.remoteDataSource.RemoteDataSource
 class MainRepository(private val remoteDataSource: RemoteDataSource) {
 
     //profile name
-    val profileName: LiveData<String>
+    val profileName: LiveData<UserProfile>
         get() = remoteDataSource.getResponseFirebase()
 
     // firebase response status error or Done ,need it for binding adapter

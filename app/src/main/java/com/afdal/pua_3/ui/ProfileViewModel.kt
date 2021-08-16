@@ -2,6 +2,7 @@ package com.afdal.pua_3.ui
 
 import androidx.lifecycle.*
 import com.afdal.pua_3.repository.MainRepository
+import com.afdal.pua_3.repository.UserProfile
 import com.afdal.pua_3.repository.source.remoteDataSource.FirebaseResponseStatus
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,7 +21,7 @@ class ProfileViewModel(private val repository: MainRepository) : ViewModel() {
         startNetworking()
     }
     //profile name
-    val profileName: LiveData<String>
+    val profileName: LiveData<UserProfile>
         get() = repository.profileName
 
 
